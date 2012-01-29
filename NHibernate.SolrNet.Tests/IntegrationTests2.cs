@@ -52,7 +52,7 @@ namespace NHibernate.SolrNet.Tests {
     <id name='Id'>
       <generator class='assigned'/>
     </id>
-    
+
     <property name='ParentProp1'/>
     <bag name='Children' lazy='true' cascade='none' >
             <key column='parent_id'/>
@@ -64,9 +64,9 @@ namespace NHibernate.SolrNet.Tests {
     <id name='Id'>
       <generator class='assigned'/>
     </id>
-    
+
     <property name='ChildProp1'/>
-    
+
   </class>
 
 

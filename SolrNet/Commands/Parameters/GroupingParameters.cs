@@ -8,7 +8,7 @@ namespace SolrNet.Commands.Parameters
 
 
 	/// <summary>
-	/// Controls the output format of the grouping 
+	/// Controls the output format of the grouping
 	/// </summary>
 	public enum GroupingFormat
 	{
@@ -24,9 +24,9 @@ namespace SolrNet.Commands.Parameters
 	}
 
 	/// <summary>
-	/// Parameters to query grouping / collapsing 
+	/// Parameters to query grouping / collapsing
 	/// (Only SOLR 4.0)
-	/// 
+	///
 	/// group.func  AND group.query parameters are missing
 	/// <see cref="http://wiki.apache.org/solr/FieldCollapsing"/>
 	/// <see cref="http://wiki.apache.org/solr/FieldCollapsing#parameters"/>
@@ -36,7 +36,7 @@ namespace SolrNet.Commands.Parameters
 		/// <summary>
 		/// Fields to group the results by.
 		/// Each field will return it's own group.
-		/// Group based on the unique values of a field(s). 
+		/// Group based on the unique values of a field(s).
 		/// The field must currently be single-valued and must be either indexed, or be another field type that has a value source and works in a function query - such as ExternalFileField
 		/// </summary>
 		public ICollection<string> Fields { get; set; }
@@ -78,7 +78,7 @@ namespace SolrNet.Commands.Parameters
         /// Default is false.
         /// </summary>
         public bool? Ngroups { get; set; }
-	
+
 		/// <summary>
 		/// Controls the way the group is formatted in the output
 		/// <see cref="http://wiki.apache.org/solr/FieldCollapsing#parameters"/>

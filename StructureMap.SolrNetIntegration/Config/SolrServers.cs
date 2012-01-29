@@ -1,20 +1,20 @@
 ﻿using System.Configuration;
 
-namespace StructureMap.SolrNetIntegration.Config 
+namespace StructureMap.SolrNetIntegration.Config
 {
-    public class SolrServers : ConfigurationElementCollection 
+    public class SolrServers : ConfigurationElementCollection
     {
         public void Add(SolrServerElement configurationElement)
         {
             base.BaseAdd(configurationElement);
         }
 
-        protected override ConfigurationElement CreateNewElement() 
+        protected override ConfigurationElement CreateNewElement()
         {
             return new SolrServerElement();
         }
 
-        protected override object GetElementKey(ConfigurationElement element) 
+        protected override object GetElementKey(ConfigurationElement element)
         {
             var solrServerElement = (SolrServerElement)element;
             return solrServerElement.Url + solrServerElement.DocumentType;
@@ -25,7 +25,7 @@ namespace StructureMap.SolrNetIntegration.Config
             get { return ConfigurationElementCollectionType.BasicMap; }
         }
 
-        protected override string ElementName 
+        protected override string ElementName
         {
             get { return "server"; }
         }

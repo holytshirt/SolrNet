@@ -31,7 +31,7 @@ module Nu =
     open NuGet
 
     let build version name desc dependencies =
-        let builder = 
+        let builder =
             PackageBuilder(
                 Id = name,
                 Title = name,
@@ -49,7 +49,7 @@ module Nu =
             |> Seq.map (fun f -> PhysicalPackageFile(SourcePath = f, TargetPath = d @@ Path.GetFileName(f)))
         let files = ["lib";"content"] |> Seq.collect buildFiles
         builder.Files.AddRange (files |> Seq.map (fun i -> upcast i))
-        let deps = 
+        let deps =
             dependencies
             |> Seq.map (fun (id,v) -> PackageDependency(id = id, versionSpec = VersionUtility.ParseVersionSpec v))
         builder.Dependencies.AddRange deps
@@ -58,7 +58,7 @@ module Nu =
 
 module Solr =
     let private cmdline = "-DSTOP.PORT=8079 -DSTOP.KEY=secret -jar start.jar"
-    let start() = 
+    let start() =
         Shell.AsyncExec("java", cmdline, dir = solr) |> Async.Ignore |> Async.Start
         let watch = System.Diagnostics.Stopwatch.StartNew()
         while httpGet "http://localhost:8983/solr/admin/ping" = null do
@@ -70,7 +70,7 @@ module Solr =
                 Shell.Exec("java", cmdline + " --stop", dir = solr) |> ignore }
 
 module Git =
-    let sha1() = 
+    let sha1() =
         try
             let headref = (File.ReadAllLines ".git\\HEAD").[0]
             let headref = headref.Substring(5) // assume ref

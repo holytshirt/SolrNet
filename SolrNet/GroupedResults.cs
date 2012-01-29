@@ -10,11 +10,11 @@ namespace SolrNet
 	public class GroupedResults<T>
 	{
 		/// <summary>
-		/// Returns the number of matching (unique!!) documents that are grouped. 
+		/// Returns the number of matching (unique!!) documents that are grouped.
 		/// </summary>
 		public int Matches { get; set; }
 		/// <summary>
-		/// Grouped documents 
+		/// Grouped documents
 		/// </summary>
 		public ICollection<Group<T>> Groups { get; set; }
 

@@ -6,7 +6,7 @@ namespace SolrNet {
     ///</Summary>
     public enum DIHStatus {
         ///<Summary>
-        /// Idle 
+        /// Idle
         ///</Summary>
         IDLE,
 

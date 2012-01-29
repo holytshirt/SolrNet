@@ -1,12 +1,12 @@
 ﻿#region license
 // Copyright (c) 2007-2010 Mauricio Scheffer
-// 
+//
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
 // You may obtain a copy of the License at
-// 
+//
 //      http://www.apache.org/licenses/LICENSE-2.0
-//  
+//
 // Unless required by applicable law or agreed to in writing, software
 // distributed under the License is distributed on an "AS IS" BASIS,
 // WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
@@ -513,7 +513,7 @@ namespace SolrNet.Tests {
             first.Value.Snippets["source_en"].ForEach(Console.WriteLine);
             Assert.AreEqual(3, first.Value.Snippets["source_en"].Count);
         }
-        
+
         [Test]
         public void ParseSpellChecking() {
             var parser = new SpellCheckResponseParser<Product>();
@@ -677,7 +677,7 @@ namespace SolrNet.Tests {
 
 			Assert.AreEqual(2, r.FacetPivots["inStock,manu"].Count);
 			Assert.AreEqual("inStock", r.FacetPivots["inStock,manu"][0].Field);
-			Assert.AreEqual(10, r.FacetPivots["inStock,manu"][0].ChildPivots.Count); 
+			Assert.AreEqual(10, r.FacetPivots["inStock,manu"][0].ChildPivots.Count);
 
 		}
 

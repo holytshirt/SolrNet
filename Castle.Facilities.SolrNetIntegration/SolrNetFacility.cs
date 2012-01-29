@@ -1,12 +1,12 @@
 ﻿#region license
 // Copyright (c) 2007-2010 Mauricio Scheffer
-// 
+//
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
 // You may obtain a copy of the License at
-// 
+//
 //      http://www.apache.org/licenses/LICENSE-2.0
-//  
+//
 // Unless required by applicable law or agreed to in writing, software
 // distributed under the License is distributed on an "AS IS" BASIS,
 // WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
@@ -227,7 +227,7 @@ namespace Castle.Facilities.SolrNetIntegration {
             if (node == null)
                 throw new FacilityException("Document type missing in SolrNet core configuration");
             try {
-                return Type.GetType(node.Value);                
+                return Type.GetType(node.Value);
             } catch (Exception e) {
                 throw new FacilityException(string.Format("Error getting document type '{0}'", node.Value), e);
             }

@@ -1,12 +1,12 @@
 ﻿#region license
 // Copyright (c) 2007-2010 Mauricio Scheffer
-// 
+//
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
 // You may obtain a copy of the License at
-// 
+//
 //      http://www.apache.org/licenses/LICENSE-2.0
-//  
+//
 // Unless required by applicable law or agreed to in writing, software
 // distributed under the License is distributed on an "AS IS" BASIS,
 // WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
@@ -32,7 +32,7 @@ namespace NHibernate.SolrNet.Impl {
         private readonly QueryOptions options = new QueryOptions();
         private readonly IServiceProvider provider;
 
-        public NHSolrQueryImpl(IServiceProvider provider, string queryString, FlushMode flushMode, ISessionImplementor session, ParameterMetadata parameterMetadata) : 
+        public NHSolrQueryImpl(IServiceProvider provider, string queryString, FlushMode flushMode, ISessionImplementor session, ParameterMetadata parameterMetadata) :
             base(queryString, flushMode, session, parameterMetadata) {
             this.provider = provider;
         }

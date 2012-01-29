@@ -12,13 +12,13 @@ namespace StructureMap.SolrNetIntegration.Tests
 {
     [TestFixture]
     public class RegistryTests
-    {                
+    {
         [Test]
         public void ResolveSolrOperations()
         {
             SetupContainer();
            var m = ObjectFactory.GetInstance<ISolrOperations<Entity>>();
-            Assert.IsNotNull(m);            
+            Assert.IsNotNull(m);
         }
 
         [Test]
@@ -48,7 +48,7 @@ namespace StructureMap.SolrNetIntegration.Tests
                     Id = "test",
                     Url = "htp://localhost:8893",
                     DocumentType = typeof(Entity2).AssemblyQualifiedName,
-                }                
+                }
             };
             ObjectFactory.Initialize(c => c.IncludeRegistry(new SolrNetRegistry(solrServers)));
             ObjectFactory.GetInstance<SolrConnection>();
@@ -150,9 +150,9 @@ namespace StructureMap.SolrNetIntegration.Tests
         {
             SetupContainer();
 
-            var solr = ObjectFactory.Container.GetInstance<ISolrOperations<Dictionary<string, object>>>();        
+            var solr = ObjectFactory.Container.GetInstance<ISolrOperations<Dictionary<string, object>>>();
 
-            solr.Add(new Dictionary<string, object> 
+            solr.Add(new Dictionary<string, object>
             {
                 {"id", "ababa"},
                 {"manu", "who knows"},

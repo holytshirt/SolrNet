@@ -120,7 +120,7 @@
 
 - Bugfix: semicolons are now correctly escaped in queries.
 - Bugfix: invalid xml characters (control chars) are now correctly filtered.
-- Deleting a list (IEnumerable) of documents now uses a single request (requires unique key and Solr 1.3+) 
+- Deleting a list (IEnumerable) of documents now uses a single request (requires unique key and Solr 1.3+)
 - Added support for arbitrary parameters, using the QueryOptions.ExtraParams dictionary.
 - Added per-field facet parameters.
 - Breaking change: as a consequence of the previous change, facet queries and other facet parameters were moved to FacetParameters.
@@ -144,17 +144,17 @@
 
 - Major rewrite
 - Deprecated ISolrDocument interface
-- Dropped query by example 
+- Dropped query by example
 - Dropped random sorting
 - Added several ways to map solr fields to properties
-- Added highlighting 
-- Added filter queries 
-- Added ping 
-- Added sample application 
-- Added Windsor facility 
-- Added Ninject module 
-- Added operator overloading for queries 
-- Added MSDN-style docs 
+- Added highlighting
+- Added filter queries
+- Added ping
+- Added sample application
+- Added Windsor facility
+- Added Ninject module
+- Added operator overloading for queries
+- Added MSDN-style docs
 - Added more code samples, better organized wiki
 - Changed initialization and instantiation of the service
 

@@ -2,13 +2,13 @@ using System;
 
 namespace SolrNet.Commands.Parameters {
     /// <summary>
-    /// Constants for the choices of Regex Flags 
+    /// Constants for the choices of Regex Flags
     /// </summary>
     public abstract class RegexFlag: IEquatable<RegexFlag> {
         internal RegexFlag() {}
 
         /// <summary>
-        /// By default, case-insensitive matching assumes that only characters in the US-ASCII charset are being matched. 
+        /// By default, case-insensitive matching assumes that only characters in the US-ASCII charset are being matched.
         /// Unicode-aware case-insensitive matching can be enabled by specifying the <see cref="UnicodeCase"/> flag in conjunction with this flag.
         /// </summary>
         public static readonly RegexFlag CaseInsensitive = new RegexFlagCaseInsensitive();
@@ -19,13 +19,13 @@ namespace SolrNet.Commands.Parameters {
         public static readonly RegexFlag Comments = new RegexFlagComments();
 
         /// <summary>
-        /// In multiline mode the expressions ^ and $ match just after or just before, respectively, a line terminator or the end of the input sequence. 
+        /// In multiline mode the expressions ^ and $ match just after or just before, respectively, a line terminator or the end of the input sequence.
         /// By default these expressions only match at the beginning and the end of the entire input sequence.
         /// </summary>
         public static readonly RegexFlag MultiLine = new RegexFlagMultiLine();
 
         /// <summary>
-        /// When this flag is specified then the input string that specifies the pattern is treated as a sequence of literal characters. 
+        /// When this flag is specified then the input string that specifies the pattern is treated as a sequence of literal characters.
         /// Metacharacters or escape sequences in the input sequence will be given no special meaning.
         /// The flags CASE_INSENSITIVE and UNICODE_CASE retain their impact on matching when used in conjunction with this flag. The other flags become superfluous.
         /// </summary>
@@ -37,14 +37,14 @@ namespace SolrNet.Commands.Parameters {
         public static readonly RegexFlag DotAll = new RegexFlagDotAll();
 
         /// <summary>
-        /// When this flag is specified then case-insensitive matching, when enabled by the CASE_INSENSITIVE flag, is done in a manner consistent with the Unicode Standard. 
+        /// When this flag is specified then case-insensitive matching, when enabled by the CASE_INSENSITIVE flag, is done in a manner consistent with the Unicode Standard.
         /// By default, case-insensitive matching assumes that only characters in the US-ASCII charset are being matched.
         /// </summary>
         public static readonly RegexFlag UnicodeCase = new RegexFlagUnicodeCase();
 
         /// <summary>
-        /// When this flag is specified then two characters will be considered to match if, and only if, their full canonical decompositions match. 
-        /// The expression "a\u030A", for example, will match the string "å" when this flag is specified. 
+        /// When this flag is specified then two characters will be considered to match if, and only if, their full canonical decompositions match.
+        /// The expression "a\u030A", for example, will match the string "å" when this flag is specified.
         /// By default, matching does not take canonical equivalence into account.
         /// </summary>
         public static readonly RegexFlag CanonEq = new RegexFlagCanonEq();

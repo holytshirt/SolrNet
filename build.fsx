@@ -21,12 +21,12 @@ let keyFile = pwd() @@ "mausch.snk"
 let config = getBuildParamOrDefault "config" "debug"
 let target = getBuildParamOrDefault "target" "BuildAll"
 
-let slnBuild sln x = 
-    let strongName = 
+let slnBuild sln x =
+    let strongName =
         if File.Exists keyFile
             then ["SignAssembly","true"; "AssemblyOriginatorKeyFile",keyFile]
             else []
-    sln |> build (fun p -> { p with 
+    sln |> build (fun p -> { p with
                                 Targets = [x]
                                 Properties = ["Configuration",config] @ strongName })
 
@@ -35,7 +35,7 @@ let sampleSln = slnBuild "SampleSolrApp.sln"
 
 let nuGetBuild = Nu.build version
 
-Target "Clean" (fun _ -> 
+Target "Clean" (fun _ ->
     mainSln "Clean"
     sampleSln "Clean"
     rm_rf buildDir
@@ -64,7 +64,7 @@ for lib in libs do
     )
 
 Target "Coverage" (fun _ ->
-    testAssemblies |> Gallio.Run (fun p -> { p with 
+    testAssemblies |> Gallio.Run (fun p -> { p with
                                                 Filters = noIntegrationTests
                                                 RunnerType = "NCover"
                                                 PluginDirectories = ["lib"] })
@@ -75,13 +75,13 @@ Target "IntegrationTest" (fun _ ->
     testAssemblies |> Gallio.Run (fun p -> { p with Filters = onlyIntegrationTests })
 )
 
-let merge libraries = 
+let merge libraries =
     rm_rf buildDir
     mkdir buildDir
     let main = "SolrNet\\bin" @@ config @@ "SolrNet.dll"
     let output = buildDir @@ dlls.[0]
     let snk = if File.Exists keyFile then keyFile else null
-    ILMerge (fun p -> { p with 
+    ILMerge (fun p -> { p with
                             ToolPath = "lib\\ilmerge.exe"
                             Libraries = libraries
                             SearchDirectories = dirs
@@ -135,57 +135,57 @@ let nuGetSingle dir =
     rm_rf nugetDir
     mkdir nugetLib
     !!(dir @@ "bin" @@ config @@ (dir + ".*")) |> Copy nugetLib
-    nuGetBuild 
+    nuGetBuild
 
 Target "NuGet.Windsor" (fun _ ->
-    nuGetSingle 
-        "Castle.Facilities.SolrNetIntegration" 
+    nuGetSingle
+        "Castle.Facilities.SolrNetIntegration"
         "SolrNet.Windsor"
         "Windsor facility for SolrNet"
         ["Castle.Windsor", "[2.5.1,2.5.3]"; "SolrNet", version]
 )
 
 Target "NuGet.Ninject" (fun _ ->
-    nuGetSingle 
-        "Ninject.Integration.SolrNet" 
+    nuGetSingle
+        "Ninject.Integration.SolrNet"
         "SolrNet.Ninject"
         "Ninject module for SolrNet"
         ["Ninject", "[2.2.0.0,2.2.1.0]"; "SolrNet", version]
 )
 
 Target "NuGet.NHibernate" (fun _ ->
-    nuGetSingle 
-        "NHibernate.SolrNet" 
+    nuGetSingle
+        "NHibernate.SolrNet"
         "SolrNet.NHibernate"
         "NHibernate integration for SolrNet"
         ["NHibernate", "3.1.0.4000"; "CommonServiceLocator", "1.0"; "SolrNet", version]
 )
 
 Target "NuGet.StructureMap" (fun _ ->
-    nuGetSingle 
-        "StructureMap.SolrNetIntegration" 
+    nuGetSingle
+        "StructureMap.SolrNetIntegration"
         "SolrNet.StructureMap"
         "StructureMap registry for SolrNet"
         ["structuremap", "2.6.2.0"; "SolrNet", version]
 )
 
 Target "NuGet.Autofac" (fun _ ->
-    nuGetSingle 
-        "AutofacContrib.SolrNet" 
+    nuGetSingle
+        "AutofacContrib.SolrNet"
         "SolrNet.Autofac"
         "Autofac module for SolrNet"
         ["Autofac", "2.5.2.830"; "SolrNet", version]
 )
 
 Target "NuGet.Unity" (fun _ ->
-    nuGetSingle 
-        "Unity.SolrNetIntegration" 
+    nuGetSingle
+        "Unity.SolrNetIntegration"
         "SolrNet.Unity"
         "Unity integration for SolrNet"
         ["Unity", "2.1.505.0"; "SolrNet", version]
 )
 
-Target "ReleasePackage" (fun _ -> 
+Target "ReleasePackage" (fun _ ->
     let outputPath = "build"
     rm_rf outputPath
     mkdir outputPath
@@ -235,11 +235,11 @@ Target "PackageSampleApp" (fun _ ->
     rm_rf (outputSampleApp @@ "SampleSolrApp.sln.cache")
     mkdir (outputSampleApp @@ "lib")
 
-    !+ (outputSampleApp @@ "bin\\*") 
+    !+ (outputSampleApp @@ "bin\\*")
         -- "**\\SampleSolrApp.*" -- "**\\SolrNet.*"
         |> Scan
         |> Copy (outputSampleApp @@ "lib")
-   
+
     ["pingsolr.js"; "license.txt"; "runsample.bat"] |> Copy buildDir
 
     let csproj = outputSampleApp @@ "SampleSolrApp.csproj"
@@ -252,7 +252,7 @@ Target "PackageSampleApp" (fun _ ->
     |> Seq.filter (contains "SolrNet.dll")
     |> Seq.iter (setValue @"..\SolrNet.dll")
     xml.Save csproj
-    
+
     !! (buildDir @@ "**\\*")
         |> Zip buildDir ("SolrNet-"+version+"-sample.zip")
 )

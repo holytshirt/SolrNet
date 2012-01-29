@@ -1,12 +1,12 @@
 #region license
 // Copyright (c) 2007-2010 Mauricio Scheffer
-// 
+//
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
 // You may obtain a copy of the License at
-// 
+//
 //      http://www.apache.org/licenses/LICENSE-2.0
-//  
+//
 // Unless required by applicable law or agreed to in writing, software
 // distributed under the License is distributed on an "AS IS" BASIS,
 // WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
@@ -40,24 +40,24 @@ namespace SolrNet {
     public class SolrQueryByDistance : ISelfSerializingQuery
     {
         #region Properties
-        
+
         public string FieldName { get; private set; }
-        
+
         public double PointLatitude { get; private set; }
-        
+
         public double PointLongitude { get; private set; }
-        
+
         public int DistanceFromPoint { get; private set; }
 
         public CalculationAccuracy Accuracy { get; private set; }
-        
+
         #endregion
 
         #region Ctor
 
         public SolrQueryByDistance(string fieldName, double pointLatitude, double pointLongitude, int distance) : this(fieldName, pointLatitude, pointLongitude, distance, CalculationAccuracy.Radius ) {}
 
-        public SolrQueryByDistance(string fieldName, double pointLatitude, double pointLongitude, int distance, CalculationAccuracy accurancy) 
+        public SolrQueryByDistance(string fieldName, double pointLatitude, double pointLongitude, int distance, CalculationAccuracy accurancy)
         {
             if (string.IsNullOrEmpty(fieldName)) { throw new ArgumentNullException(); }
             if(distance <= 0) { throw new ArgumentOutOfRangeException("Distance must be greater than zero."); }
@@ -74,7 +74,7 @@ namespace SolrNet {
         public string Query {
             get {
                 var prefix = Accuracy == CalculationAccuracy.Radius ? "{!geofilt" : "{!bbox";
-                return (prefix + " pt=" + PointLatitude.ToString(CultureInfo.InvariantCulture) + "," + PointLongitude.ToString(CultureInfo.InvariantCulture) + " sfield=" + FieldName + " d=" + DistanceFromPoint + "}");        
+                return (prefix + " pt=" + PointLatitude.ToString(CultureInfo.InvariantCulture) + "," + PointLongitude.ToString(CultureInfo.InvariantCulture) + " sfield=" + FieldName + " d=" + DistanceFromPoint + "}");
             }
         }
     }

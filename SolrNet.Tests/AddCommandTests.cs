@@ -1,12 +1,12 @@
 ﻿#region license
 // Copyright (c) 2007-2010 Mauricio Scheffer
-// 
+//
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
 // You may obtain a copy of the License at
-// 
+//
 //      http://www.apache.org/licenses/LICENSE-2.0
-//  
+//
 // Unless required by applicable law or agreed to in writing, software
 // distributed under the License is distributed on an "AS IS" BASIS,
 // WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
@@ -82,7 +82,7 @@ namespace SolrNet.Tests {
 			    }));
 			}).Verify(() => {
 			    var docs = new[] {
-                    new KeyValuePair<SampleDoc, double?>(new SampleDoc(), null), 
+                    new KeyValuePair<SampleDoc, double?>(new SampleDoc(), null),
 			    };
 			    var cmd = new AddCommand<SampleDoc>(docs, docSerializer, null);
 			    cmd.Execute(conn);
@@ -200,7 +200,7 @@ namespace SolrNet.Tests {
             var conn = mocks.StrictMock<ISolrConnection>();
             var docSerializer = new SolrDocumentSerializer<SampleDoc>(new AttributesMappingManager(), new DefaultFieldSerializer());
 			var cmd = new AddCommand<SampleDoc>(new[] {
-			    new KeyValuePair<SampleDoc, double?>(new SampleDoc(), null), 
+			    new KeyValuePair<SampleDoc, double?>(new SampleDoc(), null),
 			}, docSerializer, null);
 			cmd.Execute(conn);
 		}
@@ -219,7 +219,7 @@ namespace SolrNet.Tests {
 			    }));
 			}).Verify(() => {
 			    var docs = new[] {
-                    new KeyValuePair<TestDocWithCollections, double?>(new TestDocWithCollections(), null), 
+                    new KeyValuePair<TestDocWithCollections, double?>(new TestDocWithCollections(), null),
 			    };
 			    var cmd = new AddCommand<TestDocWithCollections>(docs, docSerializer, null);
 			    cmd.Execute(conn);
@@ -246,7 +246,7 @@ namespace SolrNet.Tests {
             var mocks = new MockRepository();
             var docSerializer = mocks.StrictMock<ISolrDocumentSerializer<TestDocWithString>>();
             var docs = new[] {
-                new KeyValuePair<TestDocWithString, double?>(new TestDocWithString(), null), 
+                new KeyValuePair<TestDocWithString, double?>(new TestDocWithString(), null),
             };
             var cmd = new AddCommand<TestDocWithString>(docs, docSerializer, null);
             var xml = cmd.RemoveControlCharacters("control &#x7; &#x1; &#x9; &#x1F; &#xFFFE;");

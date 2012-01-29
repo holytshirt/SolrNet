@@ -1,12 +1,12 @@
 ﻿#region license
 // Copyright (c) 2007-2010 Mauricio Scheffer
-// 
+//
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
 // You may obtain a copy of the License at
-// 
+//
 //      http://www.apache.org/licenses/LICENSE-2.0
-//  
+//
 // Unless required by applicable law or agreed to in writing, software
 // distributed under the License is distributed on an "AS IS" BASIS,
 // WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
@@ -40,7 +40,7 @@ namespace SolrNet.Impl.FacetQuerySerializers {
         }
 
         public override IEnumerable<KeyValuePair<string, string>> Serialize(SolrFacetDateQuery q) {
-            var fieldWithoutLocalParams = localParamsRx.Replace(q.Field, ""); 
+            var fieldWithoutLocalParams = localParamsRx.Replace(q.Field, "");
             yield return KV("facet.date", q.Field);
             yield return KV(string.Format("f.{0}.facet.date.start", fieldWithoutLocalParams), SerializeSingle(q.Start));
             yield return KV(string.Format("f.{0}.facet.date.end", fieldWithoutLocalParams), SerializeSingle(q.End));

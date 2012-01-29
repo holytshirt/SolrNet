@@ -106,6 +106,6 @@ namespace SolrNet.Commands.Parameters {
         /// (terms.sort)
         /// </summary>
         public TermsSort Sort { get; set; }
-       
+
     }
 }

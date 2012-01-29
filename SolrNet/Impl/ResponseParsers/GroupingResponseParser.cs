@@ -107,7 +107,7 @@ namespace SolrNet.Impl.ResponseParsers
 			var resultNode = xml.XPathSelectElement("result[@name='doclist']");
 
 			results.NumFound = Convert.ToInt32(resultNode.Attribute("numFound").Value);
-			
+
 			foreach (var result in docParser.ParseResults(resultNode))
 				results.Documents.Add(result);
 		}

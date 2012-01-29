@@ -1,12 +1,12 @@
 ﻿#region license
 // Copyright (c) 2007-2010 Mauricio Scheffer
-// 
+//
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
 // You may obtain a copy of the License at
-// 
+//
 //      http://www.apache.org/licenses/LICENSE-2.0
-//  
+//
 // Unless required by applicable law or agreed to in writing, software
 // distributed under the License is distributed on an "AS IS" BASIS,
 // WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
@@ -50,9 +50,9 @@ namespace SolrNet {
         }
 
         /// <summary>
-        /// What to do in the event that the gap does not divide evenly between start and end. 
-        /// If this is true, the last date range constraint will have an upper bound of end; 
-        /// if false, the last date range will have the smallest possible upper bound greater then end such that the range is exactly gap wide. 
+        /// What to do in the event that the gap does not divide evenly between start and end.
+        /// If this is true, the last date range constraint will have an upper bound of end;
+        /// if false, the last date range will have the smallest possible upper bound greater then end such that the range is exactly gap wide.
         /// The default is false.
         /// </summary>
         public bool? HardEnd { get; set; }

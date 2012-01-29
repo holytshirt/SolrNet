@@ -13,7 +13,7 @@
 
         /// <summary>
         /// The content of the rich document used for ExtractingRequestHandler with extract only set to true
-        /// http://wiki.apache.org/solr/TikaExtractOnlyExampleOutput 
+        /// http://wiki.apache.org/solr/TikaExtractOnlyExampleOutput
         /// </summary>
         public string Content { get; set; }
 

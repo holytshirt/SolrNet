@@ -1,4 +1,4 @@
-﻿namespace StructureMap.SolrNetIntegration.Tests 
+﻿namespace StructureMap.SolrNetIntegration.Tests
 {
     public class Entity2 { }
 }

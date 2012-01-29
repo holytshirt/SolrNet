@@ -5,7 +5,7 @@ using System.Text;
 
 namespace SolrNet.Impl.FacetQuerySerializers
 {
-	public class SolrFacetPivotQuerySerializer : SingleTypeFacetQuerySerializer<SolrFacetPivotQuery> 
+	public class SolrFacetPivotQuerySerializer : SingleTypeFacetQuerySerializer<SolrFacetPivotQuery>
 	{
 		private static KeyValuePair<K, V> KV<K, V>(K key, V value)
 		{

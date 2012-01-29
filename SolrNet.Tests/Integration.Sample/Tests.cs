@@ -1,12 +1,12 @@
 ﻿#region license
 // Copyright (c) 2007-2010 Mauricio Scheffer
-// 
+//
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
 // You may obtain a copy of the License at
-// 
+//
 //      http://www.apache.org/licenses/LICENSE-2.0
-//  
+//
 // Unless required by applicable law or agreed to in writing, software
 // distributed under the License is distributed on an "AS IS" BASIS,
 // WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
@@ -104,7 +104,7 @@ namespace SolrNet.Tests.Integration.Sample {
         public void DeleteByIdAndOrQuery() {
             var solr = ServiceLocator.Current.GetInstance<ISolrOperations<Product>>();
 
-            var products = new List<Product> 
+            var products = new List<Product>
             {
                     new Product
                     {
@@ -173,15 +173,15 @@ namespace SolrNet.Tests.Integration.Sample {
 
             solr.AddRange(products);
             solr.Commit();
-            
+
             solr.Delete(new[] { "DEL12345", "DEL12346" }, new SolrQueryByField("features", "feature 3"));
             solr.Commit();
             var productsAfterDelete = solr.Query(SolrQuery.All);
 
             Assert.AreEqual(0, productsAfterDelete.Count);
         }
-        
-         
+
+
         [Test]
         public void Highlighting() {
             Add_then_query();
@@ -282,7 +282,7 @@ namespace SolrNet.Tests.Integration.Sample {
             foreach (var sc in r.SpellChecking) {
                 Console.WriteLine(sc.Query);
                 foreach (var s in sc.Suggestions) {
-                    Console.WriteLine(s);                    
+                    Console.WriteLine(s);
                 }
             }
         }
@@ -412,7 +412,7 @@ namespace SolrNet.Tests.Integration.Sample {
                     }
                 }
         }
-        
+
         [Test]
         [Ignore("Registering the connection in the container causes a side effect.")]
         public void LooseMappingAdd() {
@@ -424,7 +424,7 @@ namespace SolrNet.Tests.Integration.Sample {
                 {"popularity", 6},
             });
         }
-        
+
         public Type TypeOrNull(object o) {
             if (o == null)
                 return null;
@@ -435,7 +435,7 @@ namespace SolrNet.Tests.Integration.Sample {
         public void FieldCollapsing() {
             var solr = ServiceLocator.Current.GetInstance<ISolrBasicOperations<Product>>();
             var results = solr.Query(SolrQuery.All, new QueryOptions {
-                Collapse = new CollapseParameters("manu_exact") { 
+                Collapse = new CollapseParameters("manu_exact") {
                     Type = CollapseType.Adjacent,
                     MaxDocs = 1,
                 }
@@ -457,7 +457,7 @@ namespace SolrNet.Tests.Integration.Sample {
 					Limit = 1,
 				}
 			});
-			
+
 			Console.WriteLine("Group.Count {0}", results.Grouping.Count);
 			Assert.AreEqual(1, results.Grouping.Count);
 			Assert.AreEqual(true, results.Grouping.ContainsKey("manu_exact"));
