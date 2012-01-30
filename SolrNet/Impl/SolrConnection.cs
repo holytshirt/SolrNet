@@ -1,12 +1,12 @@
 ﻿#region license
 // Copyright (c) 2007-2010 Mauricio Scheffer
-// 
+//
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
 // You may obtain a copy of the License at
-// 
+//
 //      http://www.apache.org/licenses/LICENSE-2.0
-//  
+//
 // Unless required by applicable law or agreed to in writing, software
 // distributed under the License is distributed on an "AS IS" BASIS,
 // WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
@@ -26,6 +26,7 @@ using HttpWebAdapters;
 using HttpWebAdapters.Adapters;
 using SolrNet.Exceptions;
 using SolrNet.Utils;
+using HttpUtility = SolrNet.Utils.HttpUtility;
 
 namespace SolrNet.Impl {
     /// <summary>
@@ -95,6 +96,7 @@ namespace SolrNet.Impl {
             var request = HttpWebRequestFactory.Create(u.Uri);
             request.Method = HttpWebRequestMethod.POST;
             request.KeepAlive = true;
+            request.AutomaticDecompression = DecompressionMethods.Deflate | DecompressionMethods.GZip;
 
             if (Timeout > 0) {
                 request.ReadWriteTimeout = Timeout;
@@ -141,9 +143,7 @@ namespace SolrNet.Impl {
             var request = HttpWebRequestFactory.Create(u.Uri);
             request.Method = HttpWebRequestMethod.GET;
             request.KeepAlive = true;
-
-            //Issue request headers to say we can accept a compressed response
-            request.Headers.Add(HttpRequestHeader.AcceptEncoding, "gzip,deflate");
+            request.AutomaticDecompression = DecompressionMethods.Deflate | DecompressionMethods.GZip;
 
             var cached = Cache[u.Uri.ToString()];
             if (cached != null) {
@@ -151,7 +151,7 @@ namespace SolrNet.Impl {
             }
             if (Timeout > 0) {
                 request.ReadWriteTimeout = Timeout;
-                request.Timeout = Timeout;                
+                request.Timeout = Timeout;
             }
             try {
                 var response = GetResponse(request);
@@ -176,7 +176,7 @@ namespace SolrNet.Impl {
         }
 
         /// <summary>
-        /// Gets the Query 
+        /// Gets the Query
         /// </summary>
         /// <param name="parameters"></param>
         /// <returns></returns>
@@ -204,32 +204,22 @@ namespace SolrNet.Impl {
                 if (cacheControl != null && cacheControl.Contains("no-cache"))
                     etag = null; // avoid caching things marked as no-cache
 
-                return new SolrResponse(etag, UncompressResponse(response));
+                return new SolrResponse(etag, ReadResponseToString(response));
             }
         }
 
         /// <summary>
-        /// Attempts to deflate response stream if compressed in any way.
+        /// Reads the full stream from the response and returns the content as stream,
+        /// using the correct encoding.
         /// </summary>
-        /// <see cref="http://west-wind.com/weblog/posts/102969.aspx"/>
         /// <param name="response">Web response from request to Solr</param>
         /// <returns></returns>
-        private string UncompressResponse(IHttpWebResponse response) {
+        private string ReadResponseToString(IHttpWebResponse response)
+        {
             using (var responseStream = response.GetResponseStream())
-            using (var compressedStream = GetWrappedCompressionStream(response, responseStream)) {
-                var reader = new StreamReader(compressedStream, TryGetEncoding(response));
-                return reader.ReadToEnd();
+				using (var reader = new StreamReader(responseStream, TryGetEncoding(response))) {
+					return reader.ReadToEnd();
             }
-        }
-
-        private Stream GetWrappedCompressionStream(IHttpWebResponse response, Stream responseStream) {
-            if (response.ContentEncoding == null)
-                return responseStream;
-            if (response.ContentEncoding.ToLower().Contains("gzip"))
-                return new GZipStream(responseStream, CompressionMode.Decompress);
-            if (response.ContentEncoding.ToLower().Contains("deflate"))
-                return new DeflateStream(responseStream, CompressionMode.Decompress);
-            return responseStream;
         }
 
         private struct SolrResponse {

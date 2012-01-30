@@ -1,13 +1,13 @@
 ﻿#region license
 
 // Copyright (c) 2007-2010 Mauricio Scheffer
-// 
+//
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
 // You may obtain a copy of the License at
-// 
+//
 //      http://www.apache.org/licenses/LICENSE-2.0
-//  
+//
 // Unless required by applicable law or agreed to in writing, software
 // distributed under the License is distributed on an "AS IS" BASIS,
 // WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
@@ -85,9 +85,10 @@ namespace SolrNet.Tests.Utils {
         /// <param name="fileName">The name of the resource</param>
         /// <returns>An XmlDocument with the contents of the embedded resource.</returns>
         public static XDocument GetEmbeddedXml(Type type, string fileName) {
-            Stream str = GetEmbeddedFile(type, fileName);
-            var tr = new XmlTextReader(str);
-            return XDocument.Load(tr);
+			using (Stream str = GetEmbeddedFile(type, fileName)) {
+				var tr = new XmlTextReader(str);
+				return XDocument.Load(tr);
+			}
         }
     }
 }

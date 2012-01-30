@@ -19,6 +19,7 @@ using System.Collections.Generic;
 using System.Globalization;
 using System.Linq;
 using SolrNet.Commands.Parameters;
+using SolrNet.Exceptions;
 using SolrNet.Utils;
 
 namespace SolrNet.Impl {
@@ -88,6 +89,9 @@ namespace SolrNet.Impl {
                 foreach (var p in GetSpellCheckingParameters(Options))
                     yield return p;
 
+                foreach (var p in GetTermsParameters(Options))
+                    yield return p;
+
                 foreach (var p in GetMoreLikeThisParameters(Options))
                     yield return p;
 
@@ -103,6 +107,9 @@ namespace SolrNet.Impl {
 				//GetGroupingQueryOptions
 				foreach (var p in GetGroupingQueryOptions(Options))
 					yield return p;
+                
+                foreach (var p in GetClusteringParameters(Options))
+                    yield return p;
 
                 if (Options.ExtraParams != null)
                     foreach (var p in Options.ExtraParams)
@@ -214,10 +221,10 @@ namespace SolrNet.Impl {
                         param["hl.alternateField"] = h.AlternateField;
 
                     if (h.BeforeTerm != null)
-                        param["hl.simple.pre"] = h.BeforeTerm;
+                        param[h.UseFastVectorHighlighter.IsTrue() ? "hl.tag.pre" : "hl.simple.pre"] = h.BeforeTerm;
 
                     if (h.AfterTerm != null)
-                        param["hl.simple.post"] = h.AfterTerm;
+                        param[h.UseFastVectorHighlighter.IsTrue() ? "hl.tag.post" : "hl.simple.post"] = h.AfterTerm;
 
                     if (h.RegexSlop.HasValue)
                         param["hl.regex.slop"] = Convert.ToString(h.RegexSlop.Value, CultureInfo.InvariantCulture);
@@ -369,9 +376,90 @@ namespace SolrNet.Impl {
 			if (options.Grouping.OrderBy != null && options.Grouping.OrderBy.Count > 0)
 				yield return KVP("group.sort", string.Join(",", options.Grouping.OrderBy.Select(x => x.ToString()).ToArray()));
 
+            if (options.Grouping.Ngroups.HasValue)
+                yield return KVP("group.ngroups", options.Grouping.Ngroups.ToString().ToLowerInvariant());
+
 			yield return KVP("group.format", options.Grouping.Format.ToString().ToLowerInvariant());
 		
 		}
+
+        /// <summary>
+        /// Get the solr parameters for clustering
+        /// </summary>
+        /// <param name="options"></param>
+        /// <returns></returns>
+        public IEnumerable<KeyValuePair<string, string>> GetClusteringParameters(QueryOptions options) {
+            if (options.Clustering == null)
+                yield break;
+            var clst = options.Clustering;
+            yield return KVP("clustering", true.ToString().ToLowerInvariant());
+            if (clst.Engine != null)
+                yield return KVP("clustering.engine", clst.Engine);
+            if (clst.Results.HasValue)
+                yield return KVP("clustering.results", clst.Results.ToString().ToLowerInvariant());
+            if (clst.Collection.HasValue)
+                yield return KVP("clustering.collection", clst.Collection.ToString().ToLowerInvariant());
+            if (clst.Algorithm != null)
+                yield return KVP("carrot.algorithm", clst.Algorithm);
+            if (clst.Title != null)
+                yield return KVP("carrot.title", clst.Title);
+            if (clst.Snippet != null)
+                yield return KVP("carrot.snippet", clst.Snippet);
+            if (clst.Url != null)
+                yield return KVP("carrot.url", clst.Url);
+            if (clst.ProduceSummary.HasValue)
+                yield return KVP("carrot.produceSummary", clst.ProduceSummary.ToString().ToLowerInvariant());
+            if (clst.FragSize.HasValue)
+                yield return KVP("carrot.fragSize", clst.FragSize.ToString());
+            if (clst.NumDescriptions.HasValue)
+                yield return KVP("carrot.numDescriptions", clst.NumDescriptions.ToString());
+            if (clst.SubClusters.HasValue)
+                yield return KVP("carrot.outputSubClusters", clst.SubClusters.ToString().ToLowerInvariant());
+            if (clst.LexicalResources != null)
+                yield return KVP("carrot.lexicalResourcesDir", clst.LexicalResources);
+        }
+
+        /// <summary>
+        /// Gets solr parameters for terms component
+        /// </summary>
+        /// <param name="Options"></param>
+        /// <returns></returns>
+        public IEnumerable<KeyValuePair<string, string>> GetTermsParameters(QueryOptions Options)
+        {
+            var terms = Options.Terms;
+            if (terms == null)
+                yield break;
+            if (terms.Fields == null || !terms.Fields.Any())
+                throw new SolrNetException("Terms field can't be empty or null");
+            yield return KVP("terms", "true");
+            foreach(string field in terms.Fields)
+                yield return KVP("terms.fl", field);
+            if (!string.IsNullOrEmpty(terms.Prefix))
+                yield return KVP("terms.prefix", terms.Prefix);
+            if (terms.Sort != null)
+                yield return KVP("terms.sort", terms.Sort.ToString());
+            if (terms.Limit.HasValue)
+                yield return KVP("terms.limit", terms.Limit.ToString());
+            if (!string.IsNullOrEmpty(terms.Lower))
+                yield return KVP("terms.lower", terms.Lower);
+            if (terms.LowerInclude.HasValue)
+                yield return KVP("terms.lower.incl", terms.LowerInclude.ToString().ToLowerInvariant());
+            if (!string.IsNullOrEmpty(terms.Upper))
+                yield return KVP("terms.upper", terms.Upper);
+            if (terms.UpperInclude.HasValue)
+                yield return KVP("terms.upper.incl", terms.UpperInclude.ToString().ToLowerInvariant());
+            if (terms.MaxCount.HasValue)
+                yield return KVP("terms.maxcount", terms.MaxCount.ToString());
+            if (terms.MinCount.HasValue)
+                yield return KVP("terms.mincount", terms.MinCount.ToString());
+            if (terms.Raw.HasValue)
+                yield return KVP("terms.raw", terms.Raw.ToString().ToLowerInvariant());
+            if (!string.IsNullOrEmpty(terms.Regex))
+                yield return KVP("terms.regex", terms.Regex);
+            if (terms.RegexFlag != null)
+                foreach (var flag in terms.RegexFlag)
+                    yield return KVP("terms.regex.flag", flag.ToString());
+        }
 
         /// <summary>
         /// Executes the query and returns results

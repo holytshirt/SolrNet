@@ -18,7 +18,7 @@
     <% if (p == Model.CurrentPage) {%>
     <span class="currentPage"><%=p%></span>
     <% } else {%>
-    <a href="<%=Model.PageUrlFor(p)%>"><%=p%></a>    
+    <a href="<%=Model.PageUrlFor(p)%>"><%=p%></a>
     <% }%>
 <% } %>
 

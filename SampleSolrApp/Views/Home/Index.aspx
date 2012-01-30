@@ -13,12 +13,12 @@
         <% if (!string.IsNullOrEmpty(Model.DidYouMean)) { %>
         Did you mean <strong><em><a href="<%= Url.ForQuery(Model.DidYouMean) %>"><%= Model.DidYouMean%></a></em></strong>
         <% } %>
-        <% if (Model.QueryError) { %> 
+        <% if (Model.QueryError) { %>
         <span class="error">Invalid query</span>
         <% } %>
     </form>
-    
-    
+
+
     <div class="leftColumn">
         <% foreach (var f in Model.Search.Facets) { %>
         <ul>
@@ -30,9 +30,9 @@
             </li>
         </ul>
         <% } %>
-        
-        <ul>            
-            <% foreach (var f in Model.Facets) { %> 
+
+        <ul>
+            <% foreach (var f in Model.Facets) { %>
             <li>
                 <%= Html.SolrFieldPropName<Product>(f.Key) %>
                 <ul>
@@ -46,9 +46,9 @@
     </div>
 
     <div class="rightColumn">
-    
+
         <div>
-            Sort by: 
+            Sort by:
             <% if (string.IsNullOrEmpty(Model.Search.Sort)) { %>
             <strong>Best match</strong>
             <% } else { %>
@@ -67,13 +67,13 @@
             <a href="<%= Url.SetParameter("sort", "price") %>">Price</a>
             <% } %>
             |
-            <% if (Model.Search.Sort.NotNullAnd(s => s.StartsWith("random"))) { %> 
+            <% if (Model.Search.Sort.NotNullAnd(s => s.StartsWith("random"))) { %>
             <strong>Random</strong>
             <% } else { %>
             <a href="<%= Url.SetParameter("sort", "random_" + Html.RandomNumber()) %>">Random</a>
             <% } %>
         </div>
-        
+
         <div>
             <% foreach (var p in Model.Products) { %>
             <div class="product">
@@ -84,14 +84,14 @@
             </div>
             <%} %>
         </div>
-        
+
         <% Html.RenderPartial("Pagination", new PaginationInfo {
             PageUrl = Url.SetParameter("page", "!0"),
-            CurrentPage = Model.Search.PageIndex, 
+            CurrentPage = Model.Search.PageIndex,
             PageSize = Model.Search.PageSize,
             TotalItemCount = Model.TotalCount,
         }); %>
-        
+
         <div class="pagesize">
             <% Html.Repeat(new[] { 5, 10, 20 }, ps => { %>
                 <% if (ps == Model.Search.PageSize) { %>

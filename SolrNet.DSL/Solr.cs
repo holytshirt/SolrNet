@@ -1,12 +1,12 @@
 ﻿#region license
 // Copyright (c) 2007-2010 Mauricio Scheffer
-// 
+//
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
 // You may obtain a copy of the License at
-// 
+//
 //      http://www.apache.org/licenses/LICENSE-2.0
-//  
+//
 // Unless required by applicable law or agreed to in writing, software
 // distributed under the License is distributed on an "AS IS" BASIS,
 // WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
@@ -134,7 +134,7 @@ namespace SolrNet.DSL {
         /// <param name="s">Query</param>
         /// <returns>Query results</returns>
         public static ISolrQueryResults<T> Query<T>(string s) {
-            var q = NewQueryExecuter<T>(); 
+            var q = NewQueryExecuter<T>();
             return q.Execute(new SolrQuery(s), null);
         }
 
@@ -157,7 +157,7 @@ namespace SolrNet.DSL {
         /// <param name="order">Sort orders</param>
         /// <returns>Query results</returns>
         public static ISolrQueryResults<T> Query<T>(string s, ICollection<SortOrder> order) {
-            var q = NewQueryExecuter<T>(); 
+            var q = NewQueryExecuter<T>();
             return q.Execute(new SolrQuery(s), new QueryOptions {OrderBy = order});
         }
 
@@ -212,7 +212,7 @@ namespace SolrNet.DSL {
         /// <param name="rows">Pagination item count</param>
         /// <returns>Query results</returns>
         public static ISolrQueryResults<T> Query<T>(ISolrQuery q, int start, int rows) {
-            var queryExecuter = NewQueryExecuter<T>(); 
+            var queryExecuter = NewQueryExecuter<T>();
             return queryExecuter.Execute(q, new QueryOptions {Start = start, Rows = rows});
         }
 

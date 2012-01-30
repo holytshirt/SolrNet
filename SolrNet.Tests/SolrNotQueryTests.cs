@@ -1,12 +1,12 @@
 ﻿#region license
 // Copyright (c) 2007-2010 Mauricio Scheffer
-// 
+//
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
 // You may obtain a copy of the License at
-// 
+//
 //      http://www.apache.org/licenses/LICENSE-2.0
-//  
+//
 // Unless required by applicable law or agreed to in writing, software
 // distributed under the License is distributed on an "AS IS" BASIS,
 // WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
@@ -39,7 +39,7 @@ namespace SolrNet.Tests {
         public void QueryByField() {
             var q = new SolrQueryByField("desc", "samsung");
             var notq = new SolrNotQuery(q);
-            Assert.AreEqual("-desc:samsung", Serialize(notq));
+            Assert.AreEqual("-(desc:samsung)", Serialize(notq));
         }
 
         [Test]
@@ -53,20 +53,20 @@ namespace SolrNet.Tests {
         public void QueryInList() {
             var q = new SolrQueryInList("desc", "samsung", "hitachi", "fujitsu");
             var notq = new SolrNotQuery(q);
-            Assert.AreEqual("-(desc:samsung OR desc:hitachi OR desc:fujitsu)", Serialize(notq));
+            Assert.AreEqual("-((desc:samsung) OR (desc:hitachi) OR (desc:fujitsu))", Serialize(notq));
         }
 
         [Test]
         public void MultipleCriteria() {
             var q = SolrMultipleCriteriaQuery.Create(new SolrQueryByField("desc", "samsung"), new SolrQueryByRange<decimal>("price", 100, 200));
             var notq = new SolrNotQuery(q);
-            Assert.AreEqual("-(desc:samsung  price:[100 TO 200])", Serialize(notq));
+            Assert.AreEqual("-((desc:samsung)  price:[100 TO 200])", Serialize(notq));
         }
 
         [Test]
         public void MultipleCriteria_not() {
             var q = SolrMultipleCriteriaQuery.Create(new SolrQueryByField("desc", "samsung"), new SolrQueryByRange<decimal>("price", 100, 200));
-            Assert.AreEqual("-(desc:samsung  price:[100 TO 200])", Serialize(q.Not()));
+            Assert.AreEqual("-((desc:samsung)  price:[100 TO 200])", Serialize(q.Not()));
         }
 
         [Test]

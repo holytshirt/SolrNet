@@ -1,12 +1,12 @@
 ﻿#region license
 // Copyright (c) 2007-2010 Mauricio Scheffer
-// 
+//
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
 // You may obtain a copy of the License at
-// 
+//
 //      http://www.apache.org/licenses/LICENSE-2.0
-//  
+//
 // Unless required by applicable law or agreed to in writing, software
 // distributed under the License is distributed on an "AS IS" BASIS,
 // WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
@@ -96,7 +96,7 @@ namespace SolrNet.Tests {
                     var ops = new SolrBasicServer<TestDocumentWithoutUniqueKey>(connection, executer, docSerializer, null, headerParser, null, null, null);
                     var parameters = new AddParameters {CommitWithin = 4343, Overwrite = false};
                     ops.AddWithBoost(new[] { new KeyValuePair<TestDocumentWithoutUniqueKey, double?>(new TestDocumentWithoutUniqueKey(), null), }, parameters);
-                });            
+                });
         }
 
         [Test]
@@ -120,7 +120,7 @@ namespace SolrNet.Tests {
                 .Verify(() => {
                     var ops = new SolrBasicServer<TestDocumentWithoutUniqueKey>(connection, executer, docSerializer, null, headerParser, null, null, null);
                     ops.AddWithBoost(new[] { new KeyValuePair<TestDocumentWithoutUniqueKey, double?>(new TestDocumentWithoutUniqueKey(), 2.1), }, null);
-                });            
+                });
         }
 
         [Test]
@@ -363,7 +363,7 @@ namespace SolrNet.Tests {
                     Expect.On(mapper)
                         .Call(mapper.GetUniqueKey(typeof (TestDocumentWithUniqueKey)))
                         .Return(new SolrFieldModel {
-                            Property = typeof(TestDocumentWithUniqueKey).GetProperty("id"), 
+                            Property = typeof(TestDocumentWithUniqueKey).GetProperty("id"),
                             FieldName = "id"
                         });
                 })
@@ -530,7 +530,7 @@ namespace SolrNet.Tests {
                     Start = start,
                     Rows = rows,
                     OrderBy = new[] {
-                        new SortOrder("id", Order.ASC), 
+                        new SortOrder("id", Order.ASC),
                         new SortOrder("name", Order.DESC)
                     }
                 });

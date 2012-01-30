@@ -1,12 +1,12 @@
 ﻿#region license
 // Copyright (c) 2007-2010 Mauricio Scheffer
-// 
+//
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
 // You may obtain a copy of the License at
-// 
+//
 //      http://www.apache.org/licenses/LICENSE-2.0
-//  
+//
 // Unless required by applicable law or agreed to in writing, software
 // distributed under the License is distributed on an "AS IS" BASIS,
 // WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
@@ -22,6 +22,7 @@ using System.Reflection;
 using System.Xml;
 using System.Xml.Linq;
 using System.Xml.XPath;
+using Castle.Core;
 using Castle.MicroKernel.Registration;
 using Castle.Windsor;
 using MbUnit.Framework;
@@ -459,7 +460,7 @@ namespace SolrNet.Tests {
             Assert.AreEqual("Hello world!", extractResponse.Content);
         }
 
-        private IDictionary<string, IDictionary<string, ICollection<string>>> ParseHighlightingResults(string rawXml) {
+        private IDictionary<string, HighlightedSnippets> ParseHighlightingResults(string rawXml) {
             var mapper = new AttributesMappingManager();
             var parser = new HighlightingResponseParser<Product>();
             var xml = XDocument.Parse(rawXml);
@@ -468,16 +469,30 @@ namespace SolrNet.Tests {
             return parser.ParseHighlighting(new SolrQueryResults<Product> { item }, docNode);
         }
 
-		[Test]
-		public void ParseHighlighting() {
-		    var highlights = ParseHighlightingResults(EmbeddedResource.GetEmbeddedString(GetType(), "Resources.responseWithHighlighting.xml"));
-			Assert.AreEqual(1, highlights.Count);
-			var kv = highlights.First().Value;
-			Assert.AreEqual(1, kv.Count);
-			Assert.AreEqual("features", kv.First().Key);
+        [Test]
+        public void ParseHighlighting() {
+            var highlights = ParseHighlightingResults(EmbeddedResource.GetEmbeddedString(GetType(), "Resources.responseWithHighlighting.xml"));
+            Assert.AreEqual(1, highlights.Count);
+            var kv = highlights.First().Value;
+            Assert.AreEqual(1, kv.Count);
+            Assert.AreEqual("features", kv.First().Key);
             Assert.AreEqual(1, kv.First().Value.Count);
             //Console.WriteLine(kv.First().Value.First());
             Assert.Like(kv.First().Value.First(), "Noise");
+        }
+
+		[Test]
+		public void ParseHighlightingWrappedWithClass() {
+		    var highlights = ParseHighlightingResults(EmbeddedResource.GetEmbeddedString(GetType(), "Resources.responseWithHighlighting.xml"));
+			Assert.AreEqual(1, highlights.Count);
+		    var first = highlights.First();
+            Assert.AreEqual("SP2514N",first.Key);
+		    var fieldsWithSnippets = highlights["SP2514N"].Snippets;
+            Assert.AreEqual(1, fieldsWithSnippets.Count);
+            Assert.AreEqual("features", fieldsWithSnippets.First().Key);
+		    var snippets = highlights["SP2514N"].Snippets["features"];
+            Assert.AreEqual(1, snippets.Count);
+            Assert.Like(snippets.First(), "Noise");
 		}
 
         [Test]
@@ -490,6 +505,16 @@ namespace SolrNet.Tests {
         }
 
         [Test]
+        public void ParseHighlighting2WrappedWithClass()
+        {
+            var highlights = ParseHighlightingResults(EmbeddedResource.GetEmbeddedString(GetType(), "Resources.responseWithHighlighting2.xml"));
+            var first = highlights.First();
+            first.Value.Snippets.Keys.ToList().ForEach(Console.WriteLine);
+            first.Value.Snippets["source_en"].ForEach(Console.WriteLine);
+            Assert.AreEqual(3, first.Value.Snippets["source_en"].Count);
+        }
+
+        [Test]
         public void ParseSpellChecking() {
             var parser = new SpellCheckResponseParser<Product>();
             var xml = EmbeddedResource.GetEmbeddedXml(GetType(), "Resources.responseWithSpellChecking.xml");
@@ -498,6 +523,37 @@ namespace SolrNet.Tests {
             Assert.IsNotNull(spellChecking);
             Assert.AreEqual("dell ultrasharp", spellChecking.Collation);
             Assert.AreEqual(2, spellChecking.Count);
+        }
+
+        [Test]
+        public void ParseClustering() {
+            var parser = new ClusterResponseParser<Product>();
+            var xml = EmbeddedResource.GetEmbeddedXml(GetType(), "Resources.responseWithClustering.xml");
+            var docNode = xml.XPathSelectElement("response/arr[@name='clusters']");
+            var clustering = parser.ParseClusterNode(docNode);
+            Assert.IsNotNull(clustering);
+            Assert.AreEqual(89, clustering.Clusters.Count());
+            Assert.AreEqual("International", clustering.Clusters.First().Label);
+            Assert.AreEqual(33.729704170097, clustering.Clusters.First().Score);
+            Assert.AreEqual(8, clustering.Clusters.First().Documents.Count());
+            Assert.AreEqual("19622040", clustering.Clusters.First().Documents.First());
+        }
+
+        [Test]
+        public void ParseTerms()
+        {
+            var parser = new TermsResponseParser<Product>();
+            var xml = EmbeddedResource.GetEmbeddedXml(GetType(), "Resources.responseWithTerms.xml");
+            var docNode = xml.XPathSelectElement("response/lst[@name='terms']");
+            var terms = parser.ParseTerms(docNode);
+            Assert.IsNotNull(terms);
+            Assert.AreEqual(2, terms.Count);
+            Assert.AreEqual("text", terms.First().Field);
+            Assert.AreEqual("textgen", terms.ElementAt(1).Field);
+            Assert.AreEqual("boot", terms.First().Terms.First().Key);
+            Assert.AreEqual(479, terms.First().Terms.First().Value);
+            Assert.AreEqual("boots", terms.ElementAt(1).Terms.First().Key);
+            Assert.AreEqual(463, terms.ElementAt(1).Terms.First().Value);
         }
 
         [Test]
@@ -621,7 +677,7 @@ namespace SolrNet.Tests {
 
 			Assert.AreEqual(2, r.FacetPivots["inStock,manu"].Count);
 			Assert.AreEqual("inStock", r.FacetPivots["inStock,manu"][0].Field);
-			Assert.AreEqual(10, r.FacetPivots["inStock,manu"][0].ChildPivots.Count); 
+			Assert.AreEqual(10, r.FacetPivots["inStock,manu"][0].ChildPivots.Count);
 
 		}
 

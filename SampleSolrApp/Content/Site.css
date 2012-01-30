@@ -38,7 +38,7 @@ p, ul
     line-height: 1.6em;
 }
 
-/* HEADINGS   
+/* HEADINGS
 ----------------------------------------------------------*/
 h1, h2, h3, h4, h5, h6
 {
@@ -71,10 +71,10 @@ h5, h6
 }
 
 
-/* PRIMARY LAYOUT ELEMENTS   
+/* PRIMARY LAYOUT ELEMENTS
 ----------------------------------------------------------*/
 
-/* you can specify a greater or lesser percentage for the 
+/* you can specify a greater or lesser percentage for the
 page width. Or, you can specify an exact pixel width. */
 .page
 {
@@ -103,15 +103,15 @@ page width. Or, you can specify an exact pixel width. */
     font-size: 32px !important;
 }
 
-h1 a 
+h1 a
 {
 	text-decoration: none;
 	color: White;
 }
 
-h1 a:visited 
+h1 a:visited
 {
-	color: White;	
+	color: White;
 }
 
 #main
@@ -133,17 +133,17 @@ h1 a:visited
     margin: 0;
     font-size: .9em;
 }
-.leftColumn 
+.leftColumn
 {
 	float: left;
 }
-.rightColumn 
+.rightColumn
 {
 	float: right;
 	width: 700px;
 }
 
-/* TAB MENU   
+/* TAB MENU
 ----------------------------------------------------------*/
 ul#menu
 {
@@ -197,45 +197,45 @@ ul#menu li.selected a
     color: #000;
 }
 
-/* FORM LAYOUT ELEMENTS   
+/* FORM LAYOUT ELEMENTS
 ----------------------------------------------------------*/
 
-fieldset 
+fieldset
 {
     margin: 1em 0;
     padding: 1em;
     border: 1px solid #CCC;
 }
 
-fieldset p 
+fieldset p
 {
     margin: 2px 12px 10px 10px;
 }
 
-fieldset label 
+fieldset label
 {
     display: block;
 }
 
-fieldset label.inline 
+fieldset label.inline
 {
     display: inline;
 }
 
-legend 
+legend
 {
     font-size: 1.1em;
     font-weight: 600;
     padding: 2px 4px 8px 4px;
 }
 
-input[type="text"] 
+input[type="text"]
 {
     width: 200px;
     border: 1px solid #CCC;
 }
 
-input[type="password"] 
+input[type="password"]
 {
     width: 200px;
     border: 1px solid #CCC;
@@ -244,15 +244,15 @@ input[type="password"]
 /* TABLE
 ----------------------------------------------------------*/
 
-table 
+table
 {
   border: solid 1px #e8eef4;
   border-collapse: collapse;
 }
 
-table td 
+table td
 {
-  padding: 5px;   
+  padding: 5px;
   border: solid 1px #e8eef4;
 }
 
@@ -260,11 +260,11 @@ table th
 {
   padding: 6px 5px;
   text-align: left;
-  background-color: #e8eef4; 
-  border: solid 1px #e8eef4;   
+  background-color: #e8eef4;
+  border: solid 1px #e8eef4;
 }
 
-/* MISC  
+/* MISC
 ----------------------------------------------------------*/
 .clear
 {
@@ -324,35 +324,35 @@ table th
     font-weight: bold;
     color: #ff0000;
 }
-.product 
+.product
 {
 	border: solid 1px #999999;
 	padding: 4px;
 	margin: 5px;
 }
-.productName 
+.productName
 {
 	font-size: 120%;
 	font-weight: bold;
 }
-.price 
+.price
 {
 	font-weight: bold;
 }
 
 /* pagination */
-.pagination 
+.pagination
 {
 	margin: 5px;
 	float: left;
 }
-.pagination a, .pagination span 
+.pagination a, .pagination span
 {
 	border: solid 1px #888888;
 	padding: 2px 5px;
 	margin: 2px;
 }
-.pagination a 
+.pagination a
 {
 	text-decoration: none;
 }
@@ -366,22 +366,22 @@ table th
 	background-color: #888888;
 	color: White;
 }
-.pagination .disabledPage 
+.pagination .disabledPage
 {
 	color: #aaaaaa;
 }
 /* page size */
-.pagesize 
+.pagesize
 {
 	text-align: right;
 }
-.pagesize span 
+.pagesize span
 {
 	font-weight: bold;
 }
 
 /* facets */
-.leftColumn ul 
+.leftColumn ul
 {
 	list-style: none;
 	padding: 0;
@@ -390,16 +390,16 @@ table th
 {
 	font-weight: bold;
 }
-.leftColumn ul li ul li 
+.leftColumn ul li ul li
 {
 	font-weight: normal;
 }
-.leftColumn ul li ul li span 
+.leftColumn ul li ul li span
 {
 	font-size: 80%;
 	color: #999;
 }
-a.removeFacet 
+a.removeFacet
 {
 	background: url(close_icon.png) no-repeat center left;
 	padding-left: 15px;

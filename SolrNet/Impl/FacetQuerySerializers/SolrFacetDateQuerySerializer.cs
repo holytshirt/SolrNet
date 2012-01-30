@@ -1,12 +1,12 @@
 ﻿#region license
 // Copyright (c) 2007-2010 Mauricio Scheffer
-// 
+//
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
 // You may obtain a copy of the License at
-// 
+//
 //      http://www.apache.org/licenses/LICENSE-2.0
-//  
+//
 // Unless required by applicable law or agreed to in writing, software
 // distributed under the License is distributed on an "AS IS" BASIS,
 // WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
@@ -17,10 +17,13 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Text.RegularExpressions;
 using SolrNet.Utils;
 
 namespace SolrNet.Impl.FacetQuerySerializers {
     public class SolrFacetDateQuerySerializer : SingleTypeFacetQuerySerializer<SolrFacetDateQuery> {
+
+        private static readonly Regex localParamsRx = new Regex(@"\{![^\}]+\}", RegexOptions.Compiled);
 
         private readonly ISolrFieldSerializer fieldSerializer;
 
@@ -37,15 +40,16 @@ namespace SolrNet.Impl.FacetQuerySerializers {
         }
 
         public override IEnumerable<KeyValuePair<string, string>> Serialize(SolrFacetDateQuery q) {
+            var fieldWithoutLocalParams = localParamsRx.Replace(q.Field, "");
             yield return KV("facet.date", q.Field);
-            yield return KV(string.Format("f.{0}.facet.date.start", q.Field), SerializeSingle(q.Start));
-            yield return KV(string.Format("f.{0}.facet.date.end", q.Field), SerializeSingle(q.End));
-            yield return KV(string.Format("f.{0}.facet.date.gap", q.Field), q.Gap);
+            yield return KV(string.Format("f.{0}.facet.date.start", fieldWithoutLocalParams), SerializeSingle(q.Start));
+            yield return KV(string.Format("f.{0}.facet.date.end", fieldWithoutLocalParams), SerializeSingle(q.End));
+            yield return KV(string.Format("f.{0}.facet.date.gap", fieldWithoutLocalParams), q.Gap);
             if (q.HardEnd.HasValue)
-                yield return KV(string.Format("f.{0}.facet.date.hardend", q.Field), SerializeSingle(q.HardEnd.Value));
+                yield return KV(string.Format("f.{0}.facet.date.hardend", fieldWithoutLocalParams), SerializeSingle(q.HardEnd.Value));
             if (q.Other != null && q.Other.Count > 0)
                 foreach (var o in q.Other)
-                    yield return KV(string.Format("f.{0}.facet.date.other", q.Field), o.ToString());
+                    yield return KV(string.Format("f.{0}.facet.date.other", fieldWithoutLocalParams), o.ToString());
         }
     }
 }

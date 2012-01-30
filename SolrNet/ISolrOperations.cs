@@ -1,12 +1,12 @@
 ﻿#region license
 // Copyright (c) 2007-2010 Mauricio Scheffer
-// 
+//
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
 // You may obtain a copy of the License at
-// 
+//
 //      http://www.apache.org/licenses/LICENSE-2.0
-//  
+//
 // Unless required by applicable law or agreed to in writing, software
 // distributed under the License is distributed on an "AS IS" BASIS,
 // WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
@@ -27,7 +27,7 @@ namespace SolrNet {
     /// <typeparam name="T">Document type</typeparam>
     public interface ISolrOperations<T> : ISolrReadOnlyOperations<T> {
         /// <summary>
-        /// Commits posted documents, 
+        /// Commits posted documents,
         /// blocking until index changes are flushed to disk and
         /// blocking until a new searcher is opened and registered as the main query searcher, making the changes visible.
         /// </summary>
@@ -194,8 +194,8 @@ namespace SolrNet {
         ResponseHeader Delete(IEnumerable<string> ids, ISolrQuery q);
 
         /// <summary>
-        /// Create the dictionary for use by the SolrSpellChecker. 
-        /// In typical applications, one needs to build the dictionary before using it. 
+        /// Create the dictionary for use by the SolrSpellChecker.
+        /// In typical applications, one needs to build the dictionary before using it.
         /// However, it may not always be necessary as it is possible to setup the spellchecker with a dictionary that already exists.
         /// </summary>
         ResponseHeader BuildSpellCheckDictionary();

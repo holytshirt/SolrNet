@@ -77,6 +77,6 @@ namespace SolrNet.Tests
                               };
                 cmd.Execute(conn);
             });
-        }    
+        }
     }
 }

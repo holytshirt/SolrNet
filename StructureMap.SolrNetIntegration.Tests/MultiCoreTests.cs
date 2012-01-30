@@ -14,9 +14,9 @@ namespace StructureMap.SolrNetIntegration.Tests
         public void SetUp()
         {
             var solrConfig = (SolrConfigurationSection)ConfigurationManager.GetSection("solr");
-            ObjectFactory.Initialize(c => 
+            ObjectFactory.Initialize(c =>
             {
-                c.Scan(s => 
+                c.Scan(s =>
                 {
                     s.Assembly(typeof(SolrNetRegistry).Assembly);
                     s.Assembly(typeof(SolrConnection).Assembly);

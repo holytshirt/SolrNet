@@ -1,12 +1,12 @@
 #region license
 // Copyright (c) 2007-2010 Mauricio Scheffer
-// 
+//
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
 // You may obtain a copy of the License at
-// 
+//
 //      http://www.apache.org/licenses/LICENSE-2.0
-//  
+//
 // Unless required by applicable law or agreed to in writing, software
 // distributed under the License is distributed on an "AS IS" BASIS,
 // WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
@@ -34,10 +34,10 @@ namespace SolrNet.Commands.Parameters {
         }
 
         /// <summary>
-        /// The fields to use for similarity. 
+        /// The fields to use for similarity.
         /// NOTE: if possible, these should have a stored TermVector
         /// </summary>
-        public IEnumerable<string> Fields { 
+        public IEnumerable<string> Fields {
             get { return fields; }
         }
 
@@ -77,7 +77,7 @@ namespace SolrNet.Commands.Parameters {
         public bool? Boost { get; set; }
 
         /// <summary>
-        /// Query fields and their boosts using the same format as that used in DisMaxRequestHandler. 
+        /// Query fields and their boosts using the same format as that used in DisMaxRequestHandler.
         /// These fields must also be specified in <see cref="Fields"/>
         /// </summary>
         public ICollection<string> QueryFields { get; set; }

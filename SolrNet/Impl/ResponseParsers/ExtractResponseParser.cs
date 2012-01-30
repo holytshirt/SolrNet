@@ -27,7 +27,7 @@ namespace SolrNet.Impl.ResponseParsers
 
             return extractResponse;
         }
-    
+
         /// Metadata looks like this:
         /// <response>
         ///     <lst name="null_metadata">

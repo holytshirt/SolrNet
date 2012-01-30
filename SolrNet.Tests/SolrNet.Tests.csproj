@@ -123,6 +123,7 @@
     <Compile Include="MultivaluedMappedToCollectionRuleTests.cs" />
     <Compile Include="OperatorOverloadingTests.cs" />
     <Compile Include="OptimizeCommandTests.cs" />
+    <Compile Include="RegularDocumentVisitorTests.cs" />
     <Compile Include="RequiredFieldsAreMappedRuleTests.cs" />
     <Compile Include="ServiceLocatorTestCase.cs" />
     <Compile Include="SolrDIHStatusParserTest.cs" />
@@ -214,7 +215,7 @@
     <EmbeddedResource Include="Resources\partialResponseWithDateFacet.xml" />
     <EmbeddedResource Include="Resources\partialResponseWithDateFacetAndOther.xml" />
     <EmbeddedResource Include="Resources\responseWithGroupingOnInstock.xml" />
-	<EmbeddedResource Include="Resources\responseWithFacetPivoting.xml" />
+    <EmbeddedResource Include="Resources\responseWithFacetPivoting.xml" />
   </ItemGroup>
   <ItemGroup>
     <EmbeddedResource Include="Resources\collapseResponse.xml" />
@@ -241,6 +242,12 @@
   </ItemGroup>
   <ItemGroup>
     <EmbeddedResource Include="Resources\solrDIHStatusBasic.xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="Resources\responseWithClustering.xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="Resources\responseWithTerms.xml" />
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

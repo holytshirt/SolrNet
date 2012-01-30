@@ -1,12 +1,12 @@
 ﻿#region license
 // Copyright (c) 2007-2010 Mauricio Scheffer
-// 
+//
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
 // You may obtain a copy of the License at
-// 
+//
 //      http://www.apache.org/licenses/LICENSE-2.0
-//  
+//
 // Unless required by applicable law or agreed to in writing, software
 // distributed under the License is distributed on an "AS IS" BASIS,
 // WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
@@ -17,16 +17,16 @@
 namespace SolrNet.DSL.Impl {
     public interface IDSLFacetFieldOptions<T> : IDSLRun<T> {
         /// <summary>
-        /// Maximum number of constraint counts that should be returned for the facet fields. 
-        /// A negative value means unlimited. 
-        /// The default value is 100. 
+        /// Maximum number of constraint counts that should be returned for the facet fields.
+        /// A negative value means unlimited.
+        /// The default value is 100.
         /// </summary>
         IDSLFacetFieldOptions<T> LimitTo(int limit);
 
         /// <summary>
-        /// Set to true, this parameter indicates that constraints should be sorted by their count. 
-        /// If false, facets will be in their natural index order (unicode). 
-        /// For terms in the ascii range, this will be alphabetically sorted. 
+        /// Set to true, this parameter indicates that constraints should be sorted by their count.
+        /// If false, facets will be in their natural index order (unicode).
+        /// For terms in the ascii range, this will be alphabetically sorted.
         /// The default is true if Limit is greater than 0, false otherwise.
         /// </summary>
         IDSLFacetFieldOptions<T> DontSortByCount();
@@ -43,8 +43,8 @@ namespace SolrNet.DSL.Impl {
         IDSLFacetFieldOptions<T> WithMinCount(int count);
 
         /// <summary>
-        /// Indicates an offset into the list of constraints to allow paging. 
-        /// The default value is 0. 
+        /// Indicates an offset into the list of constraints to allow paging.
+        /// The default value is 0.
         /// </summary>
         IDSLFacetFieldOptions<T> StartingAt(int offset);
 
