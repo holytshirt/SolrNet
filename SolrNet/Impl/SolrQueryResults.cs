@@ -183,12 +183,14 @@ namespace SolrNet.Impl {
 
 		public ResponseHeader Header { get; set;}
 
-		public IDictionary<string, IDictionary<string, ICollection<string>>> Highlights { get; set; }
+		public IDictionary<string, HighlightedSnippets> Highlights { get; set; }
 
         public SpellCheckResults SpellChecking { get; set; }
         public IDictionary<string, IList<T>> SimilarResults { get; set; }
         public IDictionary<string, StatsResult> Stats { get; set; }
         public CollapseResults Collapsing { get; set; }
+        public ClusterResults Clusters { get; set; }
+        public TermsResults Terms { get; set; }
 
 
 		public IDictionary<string, GroupedResults<T>> Grouping { set; get; }
@@ -215,6 +217,7 @@ namespace SolrNet.Impl {
             Collapsing = new CollapseResults();
 			//Grouping = new GroupedResults<T>();
 			Grouping = new Dictionary<string, GroupedResults<T>>();
+            Terms = new TermsResults();
         }
 	}
 }

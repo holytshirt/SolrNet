@@ -1,12 +1,12 @@
 ﻿#region license
 // Copyright (c) 2007-2010 Mauricio Scheffer
-// 
+//
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
 // You may obtain a copy of the License at
-// 
+//
 //      http://www.apache.org/licenses/LICENSE-2.0
-//  
+//
 // Unless required by applicable law or agreed to in writing, software
 // distributed under the License is distributed on an "AS IS" BASIS,
 // WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
@@ -16,6 +16,7 @@
 
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Reflection;
 using Castle.Core.Configuration;
 using Castle.Core.Resource;
@@ -127,9 +128,9 @@ namespace Castle.Facilities.SolrNetIntegration.Tests {
             var parser = container.Resolve<ISolrQueryResultParser<Document>>() as SolrQueryResultParser<Document>;
             var field = parser.GetType().GetField("parsers", BindingFlags.NonPublic | BindingFlags.Instance);
             var parsers = (ISolrResponseParser<Document>[]) field.GetValue(parser);
-            Assert.AreEqual(9, parsers.Length);
+            Assert.AreEqual(11, parsers.Length);
             foreach (var t in parsers)
-                Console.WriteLine(t);            
+                Console.WriteLine(t);
         }
 
         [Test]
@@ -287,6 +288,25 @@ namespace Castle.Facilities.SolrNetIntegration.Tests {
             var container = new WindsorContainer();
             container.AddFacility("solr", solrFacility);
             var validator = container.Resolve<IMappingValidator>();
+        }
+
+        [Test]
+        public void SetConnectionTimeoutInMulticore() {
+            const string core0url = "http://localhost:8983/solr/core0";
+            const string core1url = "http://localhost:8983/solr/core1";
+            var solrFacility = new SolrNetFacility("http://localhost:8983/solr/defaultCore");
+            solrFacility.AddCore("core0-id", typeof(Document), core0url);
+            solrFacility.AddCore("core1-id", typeof(Document), core1url);
+            solrFacility.AddCore("core2-id", typeof(Core1Entity), core1url);
+            var container = new WindsorContainer();
+            container.Kernel.ComponentModelCreated += model => {
+                if (model.Implementation == typeof(SolrConnection))
+                    model.Parameters.Add("Timeout", "2000");
+            };
+            container.AddFacility("solr", solrFacility);
+            var allTimeouts = container.ResolveAll<ISolrConnection>().Cast<SolrConnection>().Select(x => x.Timeout);
+            foreach (var t in allTimeouts)
+                Assert.AreEqual(2000, t);
         }
 
         public class Document {}

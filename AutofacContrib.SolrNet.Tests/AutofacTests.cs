@@ -1,12 +1,12 @@
 ﻿#region license
 // Copyright (c) 2007-2010 Mauricio Scheffer
-// 
+//
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
 // You may obtain a copy of the License at
-// 
+//
 //      http://www.apache.org/licenses/LICENSE-2.0
-//  
+//
 // Unless required by applicable law or agreed to in writing, software
 // distributed under the License is distributed on an "AS IS" BASIS,
 // WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
@@ -15,10 +15,12 @@
 #endregion
 
 using System;
+using System.Reflection;
 using Autofac;
 using MbUnit.Framework;
 using Rhino.Mocks;
 using SolrNet;
+using SolrNet.Impl;
 
 namespace AutofacContrib.SolrNet.Tests {
     [TestFixture]
@@ -65,6 +67,22 @@ namespace AutofacContrib.SolrNet.Tests {
             var basic = container.Resolve<ISolrBasicOperations<Entity>>();
             var basicReadonly = container.Resolve<ISolrBasicReadOnlyOperations<Entity>>();
             Assert.AreSame(basic, basicReadonly);
+        }
+
+        [Test]
+        public void ResponseParsers()
+        {
+            var builder = new ContainerBuilder();
+            builder.RegisterModule(new SolrNetModule("http://localhost:8983/solr"));
+            var container = builder.Build();
+
+            var parser = container.Resolve<ISolrQueryResultParser<Entity>>();
+
+            var field = parser.GetType().GetField("parsers", BindingFlags.NonPublic | BindingFlags.Instance);
+            var parsers = (ISolrResponseParser<Entity>[])field.GetValue(parser);
+            Assert.AreEqual(11, parsers.Length);
+            foreach (var t in parsers)
+                Console.WriteLine(t);
         }
 
         public class Entity {}

@@ -1,12 +1,12 @@
 ﻿#region license
 // Copyright (c) 2007-2010 Mauricio Scheffer
-// 
+//
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
 // You may obtain a copy of the License at
-// 
+//
 //      http://www.apache.org/licenses/LICENSE-2.0
-//  
+//
 // Unless required by applicable law or agreed to in writing, software
 // distributed under the License is distributed on an "AS IS" BASIS,
 // WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
@@ -97,7 +97,6 @@ namespace SolrNet.Tests.Integration.Sample {
             Assert.AreEqual(150m, products[0].Prices["regular"]);
             Assert.AreEqual(100m, products[0].Prices["afterrebate"]);
             Assert.IsNotNull(products.Header);
-            Assert.GreaterThan(products.Header.QTime, 0);
             Console.WriteLine("QTime is {0}", products.Header.QTime);
         }
 
@@ -105,7 +104,7 @@ namespace SolrNet.Tests.Integration.Sample {
         public void DeleteByIdAndOrQuery() {
             var solr = ServiceLocator.Current.GetInstance<ISolrOperations<Product>>();
 
-            var products = new List<Product> 
+            var products = new List<Product>
             {
                     new Product
                     {
@@ -174,15 +173,15 @@ namespace SolrNet.Tests.Integration.Sample {
 
             solr.AddRange(products);
             solr.Commit();
-            
+
             solr.Delete(new[] { "DEL12345", "DEL12346" }, new SolrQueryByField("features", "feature 3"));
             solr.Commit();
             var productsAfterDelete = solr.Query(SolrQuery.All);
 
             Assert.AreEqual(0, productsAfterDelete.Count);
         }
-        
-         
+
+
         [Test]
         public void Highlighting() {
             Add_then_query();
@@ -194,7 +193,28 @@ namespace SolrNet.Tests.Integration.Sample {
             });
             Assert.IsNotNull(results.Highlights);
             Assert.AreEqual(1, results.Highlights.Count);
-            foreach (var h in results.Highlights[results[0].Id]) {
+            foreach (var h in results.Highlights[results[0].Id])
+            {
+                Console.WriteLine("{0}: {1}", h.Key, string.Join(", ", h.Value.ToArray()));
+            }
+        }
+
+        [Test]
+        public void HighlightingWrappedWithClass()
+        {
+            Add_then_query();
+            var solr = ServiceLocator.Current.GetInstance<ISolrBasicOperations<Product>>();
+            var results = solr.Query(new SolrQueryByField("features", "noise"), new QueryOptions
+            {
+                Highlight = new HighlightingParameters
+                {
+                    Fields = new[] { "features" },
+                }
+            });
+            Assert.IsNotNull(results.Highlights);
+            Assert.AreEqual(1, results.Highlights.Count);
+            foreach (var h in results.Highlights[results[0].Id].Snippets)
+            {
                 Console.WriteLine("{0}: {1}", h.Key, string.Join(", ", h.Value.ToArray()));
             }
         }
@@ -262,7 +282,7 @@ namespace SolrNet.Tests.Integration.Sample {
             foreach (var sc in r.SpellChecking) {
                 Console.WriteLine(sc.Query);
                 foreach (var s in sc.Suggestions) {
-                    Console.WriteLine(s);                    
+                    Console.WriteLine(s);
                 }
             }
         }
@@ -357,6 +377,20 @@ namespace SolrNet.Tests.Integration.Sample {
         }
 
         [Test]
+        public void LocalParams2() {
+            Add_then_query();
+            var solr = ServiceLocator.Current.GetInstance<ISolrOperations<Product>>();
+            solr.Query(new LocalParams { { "tag", "pp" } } + new SolrQueryByField("cat", "bla"));
+        }
+
+        [Test]
+        public void LocalParams3() {
+            Add_then_query();
+            var solr = ServiceLocator.Current.GetInstance<ISolrOperations<Product>>();
+            solr.Query(new LocalParams { { "tag", "pp" } } + new SolrQuery("cat:bla"));
+        }
+
+        [Test]
         public void LooseMapping() {
             Add_then_query();
             Startup.Init<Dictionary<string, object>>(new LoggingConnection(new SolrConnection(serverURL)));
@@ -378,7 +412,7 @@ namespace SolrNet.Tests.Integration.Sample {
                     }
                 }
         }
-        
+
         [Test]
         [Ignore("Registering the connection in the container causes a side effect.")]
         public void LooseMappingAdd() {
@@ -390,7 +424,7 @@ namespace SolrNet.Tests.Integration.Sample {
                 {"popularity", 6},
             });
         }
-        
+
         public Type TypeOrNull(object o) {
             if (o == null)
                 return null;
@@ -401,7 +435,7 @@ namespace SolrNet.Tests.Integration.Sample {
         public void FieldCollapsing() {
             var solr = ServiceLocator.Current.GetInstance<ISolrBasicOperations<Product>>();
             var results = solr.Query(SolrQuery.All, new QueryOptions {
-                Collapse = new CollapseParameters("manu_exact") { 
+                Collapse = new CollapseParameters("manu_exact") {
                     Type = CollapseType.Adjacent,
                     MaxDocs = 1,
                 }
@@ -423,7 +457,7 @@ namespace SolrNet.Tests.Integration.Sample {
 					Limit = 1,
 				}
 			});
-			
+
 			Console.WriteLine("Group.Count {0}", results.Grouping.Count);
 			Assert.AreEqual(1, results.Grouping.Count);
 			Assert.AreEqual(true, results.Grouping.ContainsKey("manu_exact"));

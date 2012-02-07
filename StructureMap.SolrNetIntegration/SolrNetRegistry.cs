@@ -21,7 +21,7 @@ namespace StructureMap.SolrNetIntegration
     public class SolrNetRegistry : Configuration.DSL.Registry
     {
         public SolrNetRegistry(SolrServers solrServers)
-        {          
+        {
             For<IReadOnlyMappingManager>().Use<MemoizingMappingManager>()
                 .Ctor<IReadOnlyMappingManager>("mapper").Is(new AttributesMappingManager());
             For(typeof (ISolrDocumentActivator<>)).Use(typeof (SolrDocumentActivator<>));
@@ -77,7 +77,9 @@ namespace StructureMap.SolrNetIntegration
                                     typeof(SpellCheckResponseParser<>),
                                     typeof(StatsResponseParser<>),
                                     typeof(CollapseResponseParser<>),
-                                    typeof(GroupingResponseParser<>)
+                                    typeof(GroupingResponseParser<>),
+                                    typeof(ClusterResponseParser<>),
+                                    typeof(TermsResponseParser<>)
                                 };
 
             foreach (var p in parsers)
@@ -153,7 +155,7 @@ namespace StructureMap.SolrNetIntegration
             return new SolrCore(id, documentType, coreUrl);
         }
 
-        private static string GetCoreUrl(SolrServerElement server) 
+        private static string GetCoreUrl(SolrServerElement server)
         {
             var url = server.Url;
             if (string.IsNullOrEmpty(url))
@@ -161,27 +163,27 @@ namespace StructureMap.SolrNetIntegration
             return url;
         }
 
-        private static Type GetCoreDocumentType(SolrServerElement server) 
+        private static Type GetCoreDocumentType(SolrServerElement server)
         {
             var documentType = server.DocumentType;
-            
+
             if (string.IsNullOrEmpty(documentType))
                 throw new ConfigurationErrorsException("Document type missing in SolrNet core configuration");
-            
+
             Type type;
-            
-            try 
+
+            try
             {
                 type = Type.GetType(documentType);
             }
-            catch (Exception e) 
+            catch (Exception e)
             {
                 throw new ConfigurationErrorsException(string.Format("Error getting document type '{0}'", documentType), e);
             }
-            
+
             if (type == null)
                 throw new ConfigurationErrorsException(string.Format("Error getting document type '{0}'", documentType));
-            
+
             return type;
         }
 

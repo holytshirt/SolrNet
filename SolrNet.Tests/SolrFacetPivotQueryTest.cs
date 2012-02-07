@@ -37,7 +37,7 @@ namespace SolrNet.Tests
 			{
 				Assert.DoesNotContain(kvPair.Key, "facet.pivot.mincount");
 			}
-			
+
 		}
 		[Test]
 		public void MultiplePivotTest()

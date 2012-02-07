@@ -1,12 +1,12 @@
 ﻿#region license
 // Copyright (c) 2007-2010 Mauricio Scheffer
-// 
+//
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
 // You may obtain a copy of the License at
-// 
+//
 //      http://www.apache.org/licenses/LICENSE-2.0
-//  
+//
 // Unless required by applicable law or agreed to in writing, software
 // distributed under the License is distributed on an "AS IS" BASIS,
 // WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
@@ -42,25 +42,25 @@ namespace SolrNet.Tests {
         [Test]
         public void MultipleAnd() {
             var q = new SolrQuery("solr") && new SolrQuery("name:desc") && new SolrQueryByField("id", "123456");
-            Assert.AreEqual("((solr AND name:desc) AND id:123456)", Serialize(q));
+            Assert.AreEqual("((solr AND name:desc) AND (id:123456))", Serialize(q));
         }
 
         [Test]
         public void MultipleOr() {
             var q = new SolrQuery("solr") || new SolrQuery("name:desc") || new SolrQueryByField("id", "123456");
-            Assert.AreEqual("((solr OR name:desc) OR id:123456)", Serialize(q));
+            Assert.AreEqual("((solr OR name:desc) OR (id:123456))", Serialize(q));
         }
 
         [Test]
         public void MixedAndOrs_obeys_operator_precedence() {
             var q = new SolrQuery("solr") || new SolrQuery("name:desc") && new SolrQueryByField("id", "123456");
-            Assert.AreEqual("(solr OR (name:desc AND id:123456))", Serialize(q));
+            Assert.AreEqual("(solr OR (name:desc AND (id:123456)))", Serialize(q));
         }
 
         [Test]
         public void MixedAndOrs_with_parentheses_obeys_precedence() {
             var q = (new SolrQuery("solr") || new SolrQuery("name:desc")) && new SolrQueryByField("id", "123456");
-            Assert.AreEqual("((solr OR name:desc) AND id:123456)", Serialize(q));
+            Assert.AreEqual("((solr OR name:desc) AND (id:123456))", Serialize(q));
         }
 
         [Test]
@@ -86,6 +86,12 @@ namespace SolrNet.Tests {
         public void Minus() {
             var q = new SolrQuery("solr") - new SolrQuery("name:desc");
             Assert.AreEqual("(solr  -name:desc)", Serialize(q));
+        }
+
+        [Test]
+        public void AllMinus() {
+            var q = SolrQuery.All - new SolrQuery("product");
+            Assert.AreEqual("(*:*  -product)", Serialize(q));
         }
     }
 }

@@ -62,6 +62,11 @@ namespace SolrNet.Commands.Parameters {
         public SpellCheckingParameters SpellCheck { get; set; }
 
         /// <summary>
+        /// Terms parameters
+        /// </summary>
+        public TermsParameters Terms { get; set; }
+
+        /// <summary>
         /// More-like-this parameters
         /// </summary>
         public MoreLikeThisParameters MoreLikeThis { get; set; }
@@ -91,6 +96,12 @@ namespace SolrNet.Commands.Parameters {
 		/// records by document key and by field value
 		/// </summary>
 		public GroupingParameters Grouping { get; set; }
+
+
+        /// <summary>
+        /// This parmeter can be used to group query results into clusters based on document similarity 
+        /// </summary>
+        public ClusteringParameters Clustering { get; set; }
 
         /// <summary>
         /// Extra arbitrary parameters to be passed in the request querystring

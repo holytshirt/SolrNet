@@ -1,12 +1,12 @@
 ﻿#region license
 // Copyright (c) 2007-2010 Mauricio Scheffer
-// 
+//
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
 // You may obtain a copy of the License at
-// 
+//
 //      http://www.apache.org/licenses/LICENSE-2.0
-//  
+//
 // Unless required by applicable law or agreed to in writing, software
 // distributed under the License is distributed on an "AS IS" BASIS,
 // WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
@@ -60,8 +60,8 @@ namespace SolrNet.Commands.Parameters {
         public int? Threshold { get; set; }
 
         /// <summary>
-        /// limits the number of documents that CollapseFilter will process to create the filter DocSet. 
-        /// The intention of this is to be able to limit the time collapsing will take for very large result sets 
+        /// limits the number of documents that CollapseFilter will process to create the filter DocSet.
+        /// The intention of this is to be able to limit the time collapsing will take for very large result sets
         /// (obviously at the expense of accurate collapsing in those cases).
         /// </summary>
         public int? MaxDocs { get; set; }
